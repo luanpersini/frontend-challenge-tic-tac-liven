@@ -70,7 +70,7 @@ it("expect to be a draw", () => {
   getByText("Draw: Game over");
 });
 
-it("should not update the board incase the player clicks more than one time in a square", () => {
+it("should not update the board incase a player clicks more than one time in a square", () => {
   const { getByText, getByTestId } = render(<Game />);
   
   getByText("Current step: 0");
@@ -84,7 +84,7 @@ it("should not update the board incase the player clicks more than one time in a
   getByText("Next player: ⭕");
 });
 
-it("should reset the board when the player clicks on Play Again button", () => {
+it("should reset the board when a player clicks on Play Again button", () => {
   const { getByText, getByTestId } = render(<Game />);
   
   const playAgain = getByTestId(`play-again`);
@@ -93,4 +93,20 @@ it("should reset the board when the player clicks on Play Again button", () => {
   getByText("Current step: 0");
   const square0 = getByTestId(`square-0`);
   expect(square0.innerHTML).toBe("") 
+});
+
+it("should change the next player who will start the game when a player clicks on Play Again button", () => {
+  const { getByText, getByTestId } = render(<Game />);
+  
+  const square0 = getByTestId(`square-0`);
+  fireEvent.click(square0);
+  expect(square0.innerHTML).toBe("❌") 
+
+  const playAgain = getByTestId(`play-again`);
+  fireEvent.click(playAgain);
+  
+  fireEvent.click(square0);
+  expect(square0.innerHTML).toBe("⭕")
+  getByText("Current step: 1");
+  getByText("Next player: ❌");  
 });
