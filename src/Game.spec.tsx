@@ -83,3 +83,14 @@ it("should not update the board incase the player clicks more than one time in a
   getByText("Current step: 1");
   getByText("Next player: ⭕");
 });
+
+it("should reset the board when the player clicks on Play Again button", () => {
+  const { getByText, getByTestId } = render(<Game />);
+  
+  const playAgain = getByTestId(`play-again`);
+  fireEvent.click(playAgain);
+  
+  getByText("Current step: 0");
+  const square0 = getByTestId(`square-0`);
+  expect(square0.innerHTML).toBe("") 
+});
