@@ -1,6 +1,6 @@
 import useGameState from "./useGameState";
 
-function calculateWinner(squares : any) {
+function calculateWinner(squares: any) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -20,7 +20,7 @@ function calculateWinner(squares : any) {
   return null;
 }
 
-function Square({ id, value, onClick } : any) {
+function Square({ id, value, onClick }: any) {
   return (
     <button data-testid={`square-${id}`} className="square" onClick={onClick}>
       {value}
@@ -28,8 +28,9 @@ function Square({ id, value, onClick } : any) {
   );
 }
 
-const Board = ({ squares, onSquareClick } : any) => {
-  const renderSquare = (squareId: number) => {
+
+const Board = ({ squares, onSquareClick}: any) => { 
+  const renderSquare = (squareId: number) => {    
     return (
       <Square
         id={squareId}
@@ -61,18 +62,16 @@ const Board = ({ squares, onSquareClick } : any) => {
 };
 
 const Game: React.FC = () => {
-  const {
-    currentBoard,
-    stepNumber,
-    nextPlayer,
-    computeMove
-  } = useGameState();
+  const { currentBoard, stepNumber, nextPlayer, computeMove } = useGameState();
 
   const handleSquareClick = (squareId: number) => {
     if (calculateWinner(currentBoard) || currentBoard[squareId]) {
       // Game over or square already handled
       return;
     }
+    
+    currentBoard[squareId] = (nextPlayer === "X") ? "❌" : "⭕";
+
     computeMove(nextPlayer, squareId);
   };
 
@@ -83,7 +82,7 @@ const Game: React.FC = () => {
     } else if (stepNumber === 9) {
       return "Draw: Game over";
     } else {
-      return "Next player: " + (nextPlayer === 'X' ? "❌" : "⭕");
+      return "Next player: " + (nextPlayer === "X" ? "❌" : "⭕");
     }
   };
 
@@ -97,7 +96,10 @@ const Game: React.FC = () => {
       </h1>
       <div className="game">
         <div className="game-board">
-          <Board squares={currentBoard} onSquareClick={handleSquareClick} />
+          <Board
+            squares={currentBoard}            
+            onSquareClick={handleSquareClick}
+          />
         </div>
         <div className="game-info">
           <div>Current step: {stepNumber}</div>
