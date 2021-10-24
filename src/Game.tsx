@@ -28,8 +28,8 @@ function Square({ id, value, onClick }: any) {
   );
 }
 
-const Board = ({ squares, onSquareClick}: any) => { 
-  const renderSquare = (squareId: number) => {    
+const Board = ({ squares, onSquareClick }: any) => {
+  const renderSquare = (squareId: number) => {
     return (
       <Square
         id={squareId}
@@ -61,24 +61,25 @@ const Board = ({ squares, onSquareClick}: any) => {
 };
 
 const Game: React.FC = () => {
-  const { currentBoard, stepNumber, nextPlayer, computeMove, resetBoard, startPlayer } = useGameState();
+  const {
+    currentBoard,
+    stepNumber,
+    nextPlayer,
+    computeMove,
+    resetBoard
+  } = useGameState();
 
   const handleSquareClick = (squareId: number) => {
     if (calculateWinner(currentBoard) || currentBoard[squareId]) {
       // Game over or square already handled
       return;
     }
-    
-    currentBoard[squareId] = (nextPlayer === "X") ? "❌" : "⭕";
-
+    // set the marker of the clicked square
+    currentBoard[squareId] = nextPlayer === "X" ? "❌" : "⭕";
     computeMove(nextPlayer, squareId);
   };
-  const handlePlayAgain = () => {
-      console.log('reset board');
-      resetBoard()
-   };
 
-  const renderStatusMessage = () => {
+   const renderStatusMessage = () => {
     const winner = calculateWinner(currentBoard);
     if (winner) {
       return "Winner: " + winner;
@@ -99,20 +100,16 @@ const Game: React.FC = () => {
       </h1>
       <div className="game">
         <div className="game-board">
-          <Board
-            squares={currentBoard}            
-            onSquareClick={handleSquareClick}
-          />
+          <Board squares={currentBoard} onSquareClick={handleSquareClick} />
         </div>
-        <div className="game-info">          
+        <div className="game-info">
           <div>Current step: {stepNumber}</div>
           <div>{renderStatusMessage()}</div>
-          <div className="game-play-again">                    
-          <button data-testid={'play-again'} onClick={handlePlayAgain}>          
-          Play Again
-         </button>          
-        </div>
-                  
+          <div className="game-play-again">
+            <button data-testid={"play-again"} onClick={resetBoard}>
+              Play Again
+            </button>
+          </div>
         </div>
       </div>
     </>

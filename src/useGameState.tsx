@@ -6,7 +6,6 @@ import { useState } from "react";
 
 type Player = 'X' | 'O'
 
-// let currentBoard = Array(9).fill(null);
 const useGameState = () => {
   
   const [stepNumber, setStepNumber] = useState(0); 
@@ -15,7 +14,6 @@ const useGameState = () => {
   const [currentBoard, setCurrentBoard] = useState(Array(9).fill(null));
 
   const resetBoard = () => {
-    localStorage.setItem('nextPlayer', nextPlayer) 
     const nextStartingPlayer = startPlayer === 'X' ? 'O' :'X'
     setCurrentBoard([])   
     setStepNumber(0)      
