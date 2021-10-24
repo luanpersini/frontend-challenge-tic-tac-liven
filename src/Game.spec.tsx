@@ -1,4 +1,5 @@
-import { render, fireEvent } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
+
 import Game from "./Game";
 
 it("renders game headings", () => {
@@ -17,4 +18,23 @@ it("renders board and check for step counter update", () => {
 
   // Expect "Current step: 1" to be found
   getByText("Current step: 1");
+});
+
+let square: any = []
+it("expect X to be winner", () => {
+  const { getByText, getByTestId } = render(<Game />);
+  
+  const clicks = [0,3,1,4,2]
+  for (const i of clicks){
+    square[i] = getByTestId(`square-${i}`);
+    fireEvent.click(square[i]);    
+  }
+   
+  expect(square[0].innerHTML).toBe("❌")
+  expect(square[1].innerHTML).toBe("❌")
+  expect(square[2].innerHTML).toBe("❌")
+  expect(square[3].innerHTML).toBe("⭕")
+  expect(square[4].innerHTML).toBe("⭕")
+
+  getByText("Winner: ❌");
 });
