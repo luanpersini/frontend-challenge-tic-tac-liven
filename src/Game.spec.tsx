@@ -69,3 +69,17 @@ it("expect to be a draw", () => {
    
   getByText("Draw: Game over");
 });
+
+it("should not update the board incase the player clicks more than one time in a square", () => {
+  const { getByText, getByTestId } = render(<Game />);
+  
+  getByText("Current step: 0");
+
+  const square0 = getByTestId(`square-0`);
+  fireEvent.click(square0);
+  fireEvent.click(square0);
+  fireEvent.click(square0);
+
+  getByText("Current step: 1");
+  getByText("Next player: ⭕");
+});
