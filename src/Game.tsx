@@ -28,7 +28,6 @@ function Square({ id, value, onClick }: any) {
   );
 }
 
-
 const Board = ({ squares, onSquareClick}: any) => { 
   const renderSquare = (squareId: number) => {    
     return (
@@ -62,7 +61,7 @@ const Board = ({ squares, onSquareClick}: any) => {
 };
 
 const Game: React.FC = () => {
-  const { currentBoard, stepNumber, nextPlayer, computeMove } = useGameState();
+  const { currentBoard, stepNumber, nextPlayer, computeMove, resetBoard, startPlayer } = useGameState();
 
   const handleSquareClick = (squareId: number) => {
     if (calculateWinner(currentBoard) || currentBoard[squareId]) {
@@ -74,6 +73,10 @@ const Game: React.FC = () => {
 
     computeMove(nextPlayer, squareId);
   };
+  const handlePlayAgain = () => {
+      console.log('reset board');
+      resetBoard()
+   };
 
   const renderStatusMessage = () => {
     const winner = calculateWinner(currentBoard);
@@ -101,9 +104,15 @@ const Game: React.FC = () => {
             onSquareClick={handleSquareClick}
           />
         </div>
-        <div className="game-info">
+        <div className="game-info">          
           <div>Current step: {stepNumber}</div>
           <div>{renderStatusMessage()}</div>
+          <div className="game-play-again">                    
+          <button data-testid={'play-again'} onClick={handlePlayAgain}>          
+          Play Again
+         </button>          
+        </div>
+                  
         </div>
       </div>
     </>

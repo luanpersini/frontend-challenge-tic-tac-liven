@@ -6,11 +6,22 @@ import { useState } from "react";
 
 type Player = 'X' | 'O'
 
-let currentBoard = Array(9).fill(null);
+// let currentBoard = Array(9).fill(null);
 const useGameState = () => {
   
-  const [stepNumber, setStepNumber] = useState(0);
+  const [stepNumber, setStepNumber] = useState(0); 
+  const [startPlayer, setStartPlayer] = useState<Player>('X');
   const [nextPlayer, setNextPlayer] = useState<Player>('X');
+  const [currentBoard, setCurrentBoard] = useState(Array(9).fill(null));
+
+  const resetBoard = () => {
+    localStorage.setItem('nextPlayer', nextPlayer) 
+    const nextStartingPlayer = startPlayer === 'X' ? 'O' :'X'
+    setCurrentBoard([])   
+    setStepNumber(0)      
+    setStartPlayer(nextStartingPlayer)  
+    setNextPlayer(nextStartingPlayer)
+  }
 
   const computeMove = (nextPlayer: Player, squareId: any) => {
  
@@ -21,13 +32,14 @@ const useGameState = () => {
     }
     setStepNumber((currentStepNumber) => currentStepNumber + 1);
   }
-  console.log('nextPlayer - ' + nextPlayer);
   
   return {
     nextPlayer,
     stepNumber,
     currentBoard,
-    computeMove
+    computeMove,
+    resetBoard,
+    startPlayer
   }
 }
 
