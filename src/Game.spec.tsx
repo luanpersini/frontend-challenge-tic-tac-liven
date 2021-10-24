@@ -57,3 +57,15 @@ it("expect O to be winner", () => {
 
   getByText("Winner: ⭕");
 });
+
+it("expect to be a draw", () => {
+  const { getByText, getByTestId } = render(<Game />);
+  
+  const clicks = [0,1,4,3,7,6,5,8,2]
+  for (const i of clicks){
+    square[i] = getByTestId(`square-${i}`);
+    fireEvent.click(square[i]);    
+  }
+   
+  getByText("Draw: Game over");
+});
