@@ -38,3 +38,22 @@ it("expect X to be winner", () => {
 
   getByText("Winner: ❌");
 });
+
+it("expect O to be winner", () => {
+  const { getByText, getByTestId } = render(<Game />);
+  
+  const clicks = [0,3,1,4,7,5]
+  for (const i of clicks){
+    square[i] = getByTestId(`square-${i}`);
+    fireEvent.click(square[i]);    
+  }
+   
+  expect(square[0].innerHTML).toBe("❌")
+  expect(square[1].innerHTML).toBe("❌")
+  expect(square[7].innerHTML).toBe("❌")
+  expect(square[3].innerHTML).toBe("⭕")
+  expect(square[4].innerHTML).toBe("⭕")
+  expect(square[5].innerHTML).toBe("⭕")
+
+  getByText("Winner: ⭕");
+});
